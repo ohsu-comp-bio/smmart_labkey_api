@@ -1,0 +1,58 @@
+{
+    "Product_Notes[Sequencing_Site]": {
+        "1": "OHSU-MPSSR",
+        "2": "Novogene",
+        "3": "Tempus",
+        "4": "KDL"
+    },
+    "Product_Notes[Sequencer]": {
+        "1": "Illumina HiSeq 2500",
+        "2": "Illumina NextSeq 500",
+        "3": "Illumina NovaSeq 6000"
+    },
+    "Product_Notes[End_Type]": {
+        "1": "Paired-End",
+        "2": "Single-End"
+    },
+    "Product_Notes[Index]": {
+        "1": "8bp Single index",
+        "2": "14bp Dual index",
+        "3": "UNKNOWN"
+    },
+    "Data Owner": {
+        "1": "Laura Heiser",
+        "2": "Jessica Riesterer",
+        "3": "Missy Wong",
+        "4": "Paul Spellman",
+        "5": "Koei Chin",
+        "6": "Jeremy Goecks",
+        "7": "Swapnil Parmar",
+        "8": "Gordon Mills",
+        "9": "Lisa Coussens",
+        "10": "Brett Johnson",
+        "11": "Alex Guimaraes",
+        "12": "Jim Korkola"
+    },
+    "Sample[Source_Site]": {
+        "1": "KDL",
+        "2": "Spellman"
+    },
+    "Protocol[Library_Type]": {
+        "1": "Exome",
+        "2": "Transcriptome"
+    },
+    "Protocol[Library_Construction]": {
+        "1": "Hybrid Kapa Hyper Prep + Agilent",
+        "2": "Illumina TruSeq RNA Access",
+        "3": "Kapa Hyper Prep + IDT dual-matched adapters"
+    },
+    "Protocol[Hybrid_Capture]": {
+        "1": "Agilent SureSelect XT",
+        "2": "Agilent SureSelect XT + IDT Blockers",
+        "3": "Illumina TruSeq RNA Access"
+    },
+    "Protocol[Hybrid_Capture_Bait_Set]": {
+        "1": "Agilent Human All-Exon v5",
+        "2": "Illumina TruSeq RNA Access"
+    }
+}
