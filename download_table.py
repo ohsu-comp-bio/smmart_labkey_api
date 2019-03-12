@@ -8,13 +8,11 @@ from labkey_client import SMMARTLabkey
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("chromosomes", help="Labkey Chromosome lookup list")
+    parser.add_argument("table_name", help="Table name")
+    parser.add_argument("output", help="Output file name")
     parser.add_argument("--sample", help="Sample name to filter on")
+    parser.add_argument("--format", default="tsv", help="Output file format: TSV or CSV")
     args = parser.parse_args()
-
-    # Load chromosome lookup list
-    with open(args.chromosomes, "r") as c:
-        chrs = json.load(c)
 
     # SMMART Labkey server info
     server = "bcclabkey.ohsu.edu"
@@ -23,15 +21,14 @@ if __name__ == '__main__':
 
     # Query metadata
     labkey = SMMARTLabkey(server, project, contextPath)
-    variants = labkey.query_genetrails_copy_number_variant()
-    df = labkey._create_dataframe(variants)
-
-    # Map integer codes to lookup list
-    df['Chromosome'] = df['Chromosome'].astype(str).replace(chrs)
+    df = labkey.query_study(query=args.table_name)
 
     # Filter by sample name
     if args.sample:
         df = df[df['Sample Code'] == args.sample]
 
     # Write metadata table
-    df.to_csv("genetrails-variants.tsv", sep="\t", index=False) 
+    if args.format == "csv":
+        df.to_csv(args.output, sep=",", index=False) 
+    else:
+        df.to_csv(args.output, sep="\t", index=False)

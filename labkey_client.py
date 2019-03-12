@@ -26,39 +26,60 @@ class SMMARTLabkey():
         doc = self.query_labkey(schema, query, filter_array)
         return doc
 
-    def query_sequencing_meta(self, filter_array=None):
+    def query_study(self, query, filter_array=None):
         schema = "study"
-        query = "sequencing_metadata"
-        meta = self.query_labkey(schema, query, filter_array)
-        return meta
+        study_table = self.query_labkey(schema, query, filter_array)
+        study_table = self._create_dataframe(study_table)
+        return study_table
 
-    def query_genetrails_variants(self, filter_array=None):
-        schema = "study"
-        query = "sample_genetrails_sequence_variant"
-        variants = self.query_labkey(schema, query, filter_array)
-        return variants
+    def query_lookup_lists(self,lookup):
+        lists = self.query_labkey(schema=lookup['schema'], query=lookup['queryName'], filter_array=None)
+        return lists['rows']
 
-    def query_genetrails_copy_number_variant(self, filter_array=None):
-        schema = "study"
-        query = "sample_genetrails_copy_number_variant"
-         variants = self.query_labkey(schema, query, filter_array)
-         return variants
+    def replace_lookup_lists(self, fields, df):
+        lookups = {}
+        key_cols = {}
+        for field in fields:
+            if 'lookup' in field:
+                lists = self.query_lookup_lists(field['lookup'])
+                lookups[field['lookup']['keyColumn']] = lists
+                key_cols[field['lookup']['keyColumn']] = field['name']
 
+        lookups.pop('ParticipantID')
+
+        for lookup_key,lookup_val in lookups.items():
+            if '/' in lookup_key:
+                lookup_id = lookup_key.split("/")[1]
+            else:
+                lookup_id = lookup_key
+
+            ids = {}
+            for val in lookup_val:
+                if 'display_name' in val.keys():
+                    ids[val[lookup_id]] = val['display_name']
+
+            if key_cols[lookup_key] in df.columns:
+                df[key_cols[lookup_key]].replace(ids, inplace=True)
+
+        return df
+        
     def _create_dataframe(self, q):
 
         # Get visible columns and header
         columns = q['columnModel']
+        fields = q['metaData']['fields']
+        rows = q['rows']
+
+        # 
         header = {}
         for column in columns:
             if not column['hidden']:
                 header[column['dataIndex']] = column['header']
 
-        # Select rows
-        rows = q['rows']
-        
         # Load rows into pandas dataframe
         df = pd.DataFrame(rows)
         df = df[header.keys()]
+        df = self.replace_lookup_lists(fields, df)
         df.rename(header, axis='columns', inplace=True)
-
+        
         return df
