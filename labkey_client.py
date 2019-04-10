@@ -78,7 +78,7 @@ class SMMARTLabkey():
 
         # Load rows into pandas dataframe
         df = pd.DataFrame(rows)
-        df = df[header.keys()]
+        df = df[list(header.keys())]
         df = self.replace_lookup_lists(fields, df)
         df.rename(header, axis='columns', inplace=True)
         
