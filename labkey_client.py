@@ -32,6 +32,12 @@ class SMMARTLabkey():
         study_table = self._create_dataframe(study_table)
         return study_table
 
+    def query_compbiostudy(self, query, filter_array=None):
+        schema = "CompBioStudy"
+        compbiostudy_table = self.query_labkey(schema, query, filter_array)
+        compbiostudy_table = self._create_dataframe(compbiostudy_table)
+        return compbiostudy_table
+
     def query_lookup_lists(self,lookup):
         lists = self.query_labkey(schema=lookup['schema'], query=lookup['queryName'], filter_array=None)
         return lists['rows']
@@ -45,7 +51,8 @@ class SMMARTLabkey():
                 lookups[field['lookup']['keyColumn']] = lists
                 key_cols[field['lookup']['keyColumn']] = field['name']
 
-        lookups.pop('ParticipantID')
+        if 'ParticipantID' in lookups:
+            lookups.pop('ParticipantID')
 
         for lookup_key,lookup_val in lookups.items():
             if '/' in lookup_key:
