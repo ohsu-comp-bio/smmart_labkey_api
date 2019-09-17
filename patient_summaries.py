@@ -7,8 +7,7 @@ from labkey_client import SMMARTLabkey
 import json
 
 # Command line arguments:
-#     --id  Create a summary table for a specific patient in addition to the summary of all the patients. Default is 101.
-#     --out_dir  Where to save the output file. Default is Desktop.
+#     --config_path  Path to custom json config file.
 # Additional markers and genes can be included by adding them to the appropriate json config dictionary. Any value that exists in the LabKey tables should work.
 # Two important options are 'cnv_filter' and 'mutation_filter'. Both are set to 'true' by default, so the LabKey query will only select records when the 'Reported' has a true value.
 # It is assumed the combination of 'Participant ID' and 'Date/Collection Date' can be used as a key when merging/joining records from different tables. 
@@ -16,20 +15,20 @@ import json
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--id', default = 0, type = int,  help = 'Create a summary table for a specific patient in addition to the summary of all the patients.')
-    parser.add_argument('--study', default = 'amtec', type = str,  help = 'Create a summary table for patients in a spcefic study.')
-    parser.add_argument('--out_dir', default = '~/Desktop', type = str, help = 'Where to save the output file.')
+    parser.add_argument('--config_path', default = 'patient_summaries_config.json', type = str, help = 'Specify path to custom json config file.')
     args = parser.parse_args()
 
     # Use to join tables
     INDEX = ['Participant ID', 'Date']
 
-    with open ('patient_summaries_config.json') as json_config:
+    with open (args.config_path) as json_config:
         config = json.load(json_config)
+        out_dir = config['paths']['out']
         # Query filters.
         id_range = config['filters']['id_range']
         # TODO (hocumj 8/14/2019): Handle more studies than AMTEC.
-        study_ids = config['studies']['amtec']
+        study_ids = config['reports']['amtec']
+        single_patient_id = config['reports']['single']
         cnv_reported_filter = config['filters']['cnv_reported_filter']
         mutation_reported_filter = config['filters']['mutation_reported_filter']
         # Columns of interest for summary output.
@@ -96,15 +95,15 @@ def main():
     patient_summaries.sort_index(ascending = True, inplace = True)
 
     # TODO (hocumj 8/14/2019): Handle more studies than AMTEC. Grab list of ids by matching args.study string to dictionary key.
-    if args.study == 'amtec':
+    if study_ids == 'amtec':
         study_patient_summaries = patient_summaries.loc[study_ids, :]
-        study_patient_summaries.to_csv(args.out_dir + '/' + str(args.study) + '_summaries.tsv', sep = '\t')
+        study_patient_summaries.to_csv(out_dir + '/AMTEC_summaries.tsv', sep = '\t')
     else:
-        patient_summaries.to_csv(args.out_dir + '/patient_summaries.tsv', sep = '\t')
+        patient_summaries.to_csv(out_dir + '/All_patient_summaries.tsv', sep = '\t')
     # Return a table with only the patient of interest.
-    if args.id > 0:
-        patient_summary = patient_summaries.loc[args.id, :]
-        patient_summary.to_csv(args.out_dir + '/' + str(args.id) + '_summary.tsv', sep = '\t')
+    if single_patient_id > 0:
+        patient_summary = patient_summaries.loc[single_patient_id, :]
+        patient_summary.to_csv(out_dir + '/' + str(single_patient_id) + '_summary.tsv', sep = '\t')
 
 def set_subtype(row):
     subtype = 'Undetermined'

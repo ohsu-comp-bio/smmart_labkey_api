@@ -1,12 +1,17 @@
 {
+    "paths": 
+                {
+                    "out": "~/Desktop"
+                },
     "labkey": 
                 {
                     "server": "bcclabkey.ohsu.edu", 
                     "project": "SMMART Research", 
                     "context": "SMMARTResearch"
                 },
-    "studies":
+    "reports":
                 {
+                    "single": 0,
                     "amtec": [132, 133, 135, 136, 137, 147]
                 },
     "filters":
