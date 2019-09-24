@@ -1,0 +1,38 @@
+{
+    "paths": 
+                {
+                    "out": "~/Desktop"
+                },
+    "labkey": 
+                {
+                    "server": "bcclabkey.ohsu.edu", 
+                    "project": "SMMART Research", 
+                    "context": "SMMARTResearch"
+                },
+    "reports":
+                {
+                    "single": 0,
+                    "amtec": [132, 133, 135, 136, 137, 147]
+                },
+    "filters":
+                {
+                    "id_range": [100, 200],
+                    "cnv_reported_filter": "true",
+                    "mutation_reported_filter": "true"
+                },
+    "summary_columns":
+                {
+                    "ihc_columns": ["Marker", "Status"],
+                    "ihc_markers": ["ER", "PR", "HER2", "Ki-67", "PD-L1", "AR"],
+                    "cnv_columns": ["Gene", "Copy Number Result"],
+                    "cnv_genes": ["ERBB2", "CCND1", "CDKN2A"],
+                    "mutation_columns": ["Gene", "Variant Type", "Protein Variant Type", "Result Type"],
+                    "mutation_genes": ["BRCA1", "BRCA2", "PIK3CA", "TP53"]
+                },
+    "marker_values":
+                {
+                    "positive": ["Positive", "High Expression"],
+                    "negative": ["Negative", "Equivocal", "Low Expression"],
+                    "nan": ["Insufficient", "NA", "N/A", "null", ""]
+                }
+}
