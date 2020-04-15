@@ -7,7 +7,7 @@
                 {
                     "server": "smmart-research.ohsu.edu", 
                     "project": "SMMART Research", 
-                    "context": "SMMARTResearch"
+                    "context": None
                 },
     "reports":
                 {

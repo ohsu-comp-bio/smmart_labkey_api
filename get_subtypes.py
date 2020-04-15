@@ -10,11 +10,10 @@ class ReceptorInfoError(Exception):
     pass
 
 def subtypes_groups (receptors):
-    if (receptors['ER'] == "Positive" or receptors['PR'] == "Positive"):
-        if (receptors['HER2'] == "Negative"):
-            group = "Luminal A"
-        elif (receptors['HER2'] == "Positive"):
-            group = "Luminal B"
+    if (receptors['HER2'] == "Positive"):
+        group = "HER2"
+    elif (receptors['ER'] == "Positive" or receptors['PR'] == "Positive"):
+        group = "HR Positive"
     elif (receptors['ER'] == "Negative" & receptors['PR'] == "Negative" & receptors['HER2'] == "Negative"):
         group = "Triple Negative"
     else:
@@ -31,7 +30,7 @@ if __name__ == '__main__':
     # SMMART Labkey server info
     server = "smmart-research.ohsu.edu"
     project = "SMMART Research"
-    contextPath = "SMMARTResearch"
+    contextPath = None
     labkey = SMMARTLabkey(server, project, contextPath)
 
     # Get Sequencing Metadata
