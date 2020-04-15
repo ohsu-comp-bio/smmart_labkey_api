@@ -5,7 +5,7 @@
                 },
     "labkey": 
                 {
-                    "server": "bcclabkey.ohsu.edu", 
+                    "server": "smmart-research.ohsu.edu", 
                     "project": "SMMART Research", 
                     "context": "SMMARTResearch"
                 },

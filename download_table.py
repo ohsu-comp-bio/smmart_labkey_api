@@ -15,7 +15,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # SMMART Labkey server info
-    server = "bcclabkey.ohsu.edu"
+    server = "smmart-research.ohsu.edu"
     project = "SMMART Research"
     contextPath = "SMMARTResearch"
 
