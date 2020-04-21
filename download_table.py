@@ -17,7 +17,7 @@ if __name__ == '__main__':
     # SMMART Labkey server info
     server = "smmart-research.ohsu.edu"
     project = "SMMART Research"
-    contextPath = "SMMARTResearch"
+    contextPath = None
 
     # Query metadata
     labkey = SMMARTLabkey(server, project, contextPath)
